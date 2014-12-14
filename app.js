@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http');
 var http_server = http.Server(app);
 var io = require('socket.io')(http_server);
@@ -10,7 +11,9 @@ app.get('/', function (req, res) {
 			console.log(chunk.toString());
 			io.emit('change status', chunk.toString());
 		})
-	});
+	}).on('error', function (err) {
+		console.log(err);
+	})
 	// show home
 	res.sendFile(__dirname + '/index.html');
 });
@@ -18,10 +21,16 @@ app.get('/', function (req, res) {
 function changeStatus(status) {
 	if(status == 'on') {
 		// turn lights on
-		http.get('http://arduino.local/arduino/digital/13/1');
+		http.get('http://arduino.local/arduino/digital/13/1').
+			on('error', function (err) {
+				console.log(err);
+			});
 	} else {
 		// turn lights off
-		http.get('http://arduino.local/arduino/digital/13/0');
+		http.get('http://arduino.local/arduino/digital/13/0').
+			on('error', function (err) {
+				console.log(err);
+			});
 	}
 }
 
@@ -44,3 +53,6 @@ io.on('connection', function (socket) {
 http_server.listen(3000, function () {
 	console.log('Listening on port 3000');
 });
+
+// static files
+app.use(express.static(__dirname + '/public'));
