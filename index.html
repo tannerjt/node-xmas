@@ -1,13 +1,59 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Node-Mas</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<style>
+		html {
+			min-height : 100%;
+			background-size : cover;
+		}
+
+		body {
+			min-height : 100%;
+			-webkit-transition: background-image 1.3s ease;
+    		-moz-transition: background-image 1.4s ease;
+   			 -o-transition: background-image 1.3s ease;
+    		transition: background-image 1.3s ease;
+		}
+		#controls {
+			width : 250px;
+			margin : auto;
+			margin-top : 20px;
+			text-align : center;
+			background : #fff;
+			border-radius : 12px;
+			padding : 15px;
+		}
+		.statuslink {
+			margin-top : 5px;
+		}
+		h3 {
+			margin-top : 0;
+		}
+		#attribution	{
+			background-color : #ffffff;
+			width : 100%;
+			position : fixed;
+			bottom : 0;
+			left : 0;
+			padding : 5px;
+		}
+	</style>
 </head>
 <body>
 
-<h3>Lights are <span id="status"></span></h3>
-
-<a href="#" class="statuslink">Turn Lights On</a>
-<a href="#" class="statuslink">Turn Lights Off</a>
+<div id="controls">
+	<h3>Lights are <span id="status"></span></h3>
+	<a href="#" class="btn btn-success statuslink">Turn Lights On</a>
+	<a href="#" class="btn btn-danger statuslink">Turn Lights Off</a>
+</div>
+<div id="attribution">
+	Image By: 
+	<span id="author"></span> |
+	<span id="url"></span> |
+	<span id="license"></span>
+</div>
 
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -26,7 +72,23 @@
   // update status if another user changes it
   socket.on('change status', function (msg) {
   	$("#status").html(msg);
+  	changeBackground(msg);
   });
+
+  // set background
+  function changeBackground(status) {
+  	if(status == 'on') {
+  		$("body").css('background', 'url("./img/lights_by_Rache_P.jpg") no-repeat left top');
+  		$("#author").text('Rache P.');
+  		$("#url").text('https://www.flickr.com/photos/rachephotos/2152641188/');
+  		$("#license").text('https://creativecommons.org/licenses/by/2.0/');
+  	} else {
+  		$("body").css('background', 'url("./img/snow_by_Anthony_Quintano.jpg") no-repeat left top');
+  		$("#author").text('Anthony Quintano');
+  		$("#url").text('https://www.flickr.com/photos/quintanomedia/15645734807/in/photostream/');
+  		$("#license").text('https://creativecommons.org/licenses/by/2.0/');
+  	}
+  }
 </script>
 </body>
 </html>
