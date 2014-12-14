@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Node-Mas</title>
+</head>
+<body>
+
+<h3>Lights are <span id="status"></span></h3>
+
+<a href="#" class="statuslink">Turn Lights On</a>
+<a href="#" class="statuslink">Turn Lights Off</a>
+
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  // handle click
+  $(".statuslink").on('click', function (e) {
+  	var html = $(e.target).html();
+  	if (html == "Turn Lights On") {
+  		socket.emit('change status', 'on');
+  	} else {
+  		socket.emit('change status', 'off');
+  	}
+  });
+
+  // update status if another user changes it
+  socket.on('change status', function (msg) {
+  	$("#status").html(msg);
+  });
+</script>
+</body>
+</html>

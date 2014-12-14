@@ -1,0 +1,10 @@
+{
+  "name": "christmaslights",
+  "version": "0.0.1",
+  "description": "Turn christmas lights on and off",
+  "author": "TannerDevelopment",
+  "dependencies": {
+    "socket.io": "~1.2.1",
+    "express": "latest"
+  }
+}
